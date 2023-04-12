@@ -1,5 +1,5 @@
 //jshint esversion:6
-
+//Testing Branch
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -49,9 +49,9 @@ app.post("/compose", (req, res)=>{
   const post={ 
     title:req.body.titleCompose,
     content:req.body.postCompose,
-    link:Readlink
+     link:Readlink
   }
-  //console.log(post.link)
+
   posts.push(post)
 
 
@@ -63,6 +63,7 @@ app.get("/posts/:postName",function (req,res) {
   posts.forEach(post => {
 
     // js toLowercase() is needed because Lodash seperates the Capitalized letter with a space before turning them into lowercases. Lodash.lowercase() removes the dashes
+     
     if (Lodash.lowerCase(req.params.postName.toLowerCase())=== Lodash.lowerCase(post.title.toLowerCase()
     ) ) {
   
