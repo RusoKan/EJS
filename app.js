@@ -44,7 +44,11 @@ const Post= mongoose.model("Post",PostSchema)
 app.get("/",(req,res)=>{
  
   
-  res.render("home", {homeParagraph:homeStartingContent ,posts:posts, })
+  Post.find({}).exec()
+  .then((posts)=>{
+    res.render("home", {homeParagraph:homeStartingContent ,posts:posts, })
+  })
+  
 })
 
 
@@ -73,7 +77,12 @@ app.post("/compose", (req, res)=>{
   }
   //console.log(post.link)
   posts.push(post)
-
+ const BlogPost =new Post({
+  title:req.body.titleCompose,
+  content:req.body.postCompose,
+  link:Readlink
+ })
+ BlogPost.save()
 
 
   res.redirect("/")
@@ -98,9 +107,24 @@ connectDB()
       app.listen(3000, function() {
         console.log("Server started on port 3000");
     })
+  })
+    .then(()=>{
+      Post.find({}).exec()
+      .then((postsDB)=>{
+        postsDB.forEach(postDB=>{
+          const post={ 
+            title:postDB.title,
+            content:postDB.content,
+            link:postDB.link
+          }
+          posts.push(post)
+        })
+      })
+
+    })
     
 
-});
+;
 // app.use(function (req, res) {
 //   res.status(404).render('error');
 // });
